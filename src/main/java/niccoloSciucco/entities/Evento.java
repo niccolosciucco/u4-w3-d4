@@ -7,21 +7,22 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "eventi")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Evento {
+    protected String title;
+    protected LocalDate date;
+    protected String description;
+    @Column(name = "event_type")
+    protected String eventType;
+    @Column(name = "max_partecipants")
+    protected int maxPartecipants;
+    protected String city;
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    protected Location location;
     @Id
     @GeneratedValue
     private UUID id;
-    private String title;
-    private LocalDate date;
-    private String description;
-    @Column(name = "event_type")
-    private String eventType;
-    @Column(name = "max_partecipants")
-    private int maxPartecipants;
-    private String city;
-    @ManyToOne
-    @JoinColumn(name = "location_id")
-    private Location location;
 
     protected Evento() {
     }
@@ -34,5 +35,9 @@ public class Evento {
         this.maxPartecipants = maxPartecipants;
         this.city = city;
         this.location = location;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

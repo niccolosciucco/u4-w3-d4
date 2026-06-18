@@ -7,14 +7,15 @@ import niccoloSciucco.dao.EventoDAO;
 import niccoloSciucco.dao.LocationDAO;
 import niccoloSciucco.dao.PartecipazioneDAO;
 import niccoloSciucco.dao.PersonaDAO;
+import niccoloSciucco.entities.Concerto;
 import niccoloSciucco.entities.Evento;
 import niccoloSciucco.entities.Location;
-import niccoloSciucco.entities.Partecipazione;
 import niccoloSciucco.entities.Persona;
+import niccoloSciucco.enums.Genere;
 import niccoloSciucco.enums.Sex;
-import niccoloSciucco.enums.State;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public class Application {
@@ -103,9 +104,35 @@ public class Application {
 
         Persona persona1 = personaDAO.find(UUID.fromString("259e440e-ca38-45be-89d2-3e5f5032dcb7"));
         Evento evento1 = eventoDAO.find(UUID.fromString("6584ae55-5c32-4300-9467-044176fdfbf6"));
+//
+//        Partecipazione partecipazione1 = new Partecipazione(persona1, evento1, State.CONFERMATO);
+//        partecipazioneDAO.save(partecipazione1);
+//
+//        PartitaDiCalcio partitaDiCalcio = new PartitaDiCalcio("Derby di Milano", LocalDate.of(2026, 10, 5), "Il grande scontro della Madonnina", "CALCIO", 80000, "Milano", location1FromDb, "Milan", "Inter", "Milan", 2, 1);
+//        eventoDAO.save(partitaDiCalcio);
 
-        Partecipazione partecipazione1 = new Partecipazione(persona1, evento1, State.CONFERMATO);
-        partecipazioneDAO.save(partecipazione1);
+//        List<String> atleti = List.of("Aldo Baglio", "Giovanni Storti", "Giacomo Poretti");
+//
+//        GaraDiAtletica garaDiAtletica = new GaraDiAtletica("Maratona del Secolo", LocalDate.of(2026, 8, 12), "Gara di velocità estrema nel deserto", "ATLETICA", 3, "Milano", location1FromDb, atleti, persona1);
+//        eventoDAO.save(garaDiAtletica);
 
+//        Concerto concerto = new Concerto("I Corti Live", LocalDate.of(2026, 4, 30), "Grande spettacolo teatrale", "CONCERTO", 2000, "Milano", location1FromDb, Genere.ROCK, true);
+//        eventoDAO.save(concerto);
+
+        List<Concerto> concertiInStreaming = eventoDAO.getConcertiInStreaming(true);
+        if (!concertiInStreaming.isEmpty()) {
+            Concerto singoloConcertoStream = concertiInStreaming.get(0);
+            System.out.println("Concerto in streaming trovato: " + singoloConcertoStream.getTitle());
+        } else {
+            System.out.println("Nessun concerto in streaming trovato.");
+        }
+
+        List<Concerto> concertiPop = eventoDAO.getConcertiPerGenere(Genere.POP);
+        if (!concertiPop.isEmpty()) {
+            Concerto singoloConcertoRock = concertiPop.get(0);
+            System.out.println("Concerto Rock trovato: " + singoloConcertoRock.getTitle());
+        } else {
+            System.out.println("Nessun concerto Rock trovato.");
+        }
     }
 }
